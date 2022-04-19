@@ -67,18 +67,18 @@
  *  if the config bar is fixed, the driver does not neeed to search through
  *  all of the bars
  */
-//#define XDMA_CONFIG_BAR_NUM	1
+#define XDMA_CONFIG_BAR_NUM	1
 
 /* SECTION: Preprocessor macros/constants */
-#define XDMA_BAR_NUM (6)
+#define XDMA_BAR_NUM (2)
 
 /* maximum amount of register space to map */
-#define XDMA_BAR_SIZE (0x8000UL)
+#define XDMA_BAR_SIZE (0xFFFFUL)
 
 /* Use this definition to poll several times between calls to schedule */
 #define NUM_POLLS_PER_SCHED 100
 
-#define XDMA_CHANNEL_NUM_MAX (4)
+#define XDMA_CHANNEL_NUM_MAX (1)
 /*
  * interrupts per engine, rad2_vul.sv:237
  * .REG_IRQ_OUT	(reg_irq_from_ch[(channel*2) +: 2]),
