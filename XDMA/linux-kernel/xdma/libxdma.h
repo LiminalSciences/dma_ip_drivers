@@ -68,6 +68,7 @@
  *  all of the bars
  */
 #define XDMA_CONFIG_BAR_NUM	1
+#define XDMA_USER_BAR_NUM	0
 
 /* SECTION: Preprocessor macros/constants */
 #define XDMA_BAR_NUM (2)
