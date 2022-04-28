@@ -74,7 +74,7 @@
 #define XDMA_BAR_NUM (2)
 
 /* maximum amount of register space to map */
-#define XDMA_BAR_SIZE (0xFFFFUL)
+#define XDMA_BAR_SIZE (0x8000UL)
 
 /* Use this definition to poll several times between calls to schedule */
 #define NUM_POLLS_PER_SCHED 100
