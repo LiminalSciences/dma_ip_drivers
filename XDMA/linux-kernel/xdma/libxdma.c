@@ -1697,7 +1697,18 @@ static int map_bars(struct xdma_dev *xdev, struct pci_dev *dev)
 	int rv;
 
 #ifdef XDMA_CONFIG_BAR_NUM
-  // Map XDMA config BAR
+#ifdef XDMA_USER_BAR_NUM
+  // Map USER config BAR0
+	rv = map_single_bar(xdev, dev, XDMA_USER_BAR_NUM);
+	if (rv <= 0) {
+		pr_info("%s, map USER config bar %d failed, %d.\n",
+			dev_name(&dev->dev), XDMA_USER_BAR_NUM, rv);
+		return -EINVAL;
+	}
+	xdev->user_bar_idx = XDMA_USER_BAR_NUM;
+#endif
+
+	// Map XDMA config BAR
 	rv = map_single_bar(xdev, dev, XDMA_CONFIG_BAR_NUM);
 	if (rv <= 0) {
 		pr_info("%s, map XDMA config bar %d failed, %d.\n",
@@ -1712,14 +1723,6 @@ static int map_bars(struct xdma_dev *xdev, struct pci_dev *dev)
 	}
 	xdev->config_bar_idx = XDMA_CONFIG_BAR_NUM;
 
-  // Map USER config BAR
-	rv = map_single_bar(xdev, dev, XDMA_USER_BAR_NUM);
-	if (rv <= 0) {
-		pr_info("%s, map USER config bar %d failed, %d.\n",
-			dev_name(&dev->dev), XDMA_USER_BAR_NUM, rv);
-		return -EINVAL;
-	}
-	xdev->user_bar_idx = XDMA_USER_BAR_NUM;
 
 	return 0;
 #else
