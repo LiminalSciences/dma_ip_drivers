@@ -38,7 +38,7 @@ static unsigned int poll_mode = 0;
 module_param(poll_mode, uint, 0644);
 MODULE_PARM_DESC(poll_mode, "Set 1 for hw polling, default is 0 (interrupts)");
 
-static unsigned int interrupt_mode = 1;
+static unsigned int interrupt_mode = 0;
 module_param(interrupt_mode, uint, 0644);
 MODULE_PARM_DESC(interrupt_mode, "0 - Auto , 1 - MSI, 2 - Legacy, 3 - MSI-x");
 
@@ -197,15 +197,18 @@ inline void __write_register(const char *fn, u32 value, void *iomem,
 {
 	pr_err("%s: w reg 0x%lx(0x%p), 0x%x.\n", fn, off, iomem, value);
 	iowrite32(value, iomem);
+	wmb();
 }
 #define write_register(v, mem, off) __write_register(__func__, v, mem, off)
 #else
-#define write_register(v, mem, off) iowrite32(v, mem)
+#define write_register(v, mem, off) iowrite32(v, mem); wmb()
 #endif
 
 inline u32 read_register(void *iomem)
 {
-	return ioread32(iomem);
+	u32 reg = ioread32(iomem);
+	rmb();
+	return reg;
 }
 
 static inline u32 build_u32(u32 hi, u32 lo)
